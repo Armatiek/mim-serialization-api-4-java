@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<jaxb:bindings 
+  xmlns:jaxb="https://jakarta.ee/xml/ns/jaxb"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:annox="urn:jaxb.jvnet.org:annox" 
+  xmlns:inheritance="urn:jaxb.jvnet.org:plugin:inheritance"
+  jaxb:extensionBindingPrefixes="annox inheritance"
+  jaxb:version="3.0">
+  
+  <jaxb:bindings schemaLocation="../../../xsd/1.1.0/MIMFORMAT_Mim.xsd" node="/xs:schema">
+    <jaxb:bindings node="/*/xs:complexType[@name='Datatype']">
+      <jaxb:class name="DatatypeCT"/>
+    </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:element[@name='Datatype']">
+      <jaxb:class name="DatatypeEL"/>
+      <jaxb:bindings node="/*/xs:complexType[@name='Informatiemodel']">
+      <annox:annotate target="class">
+        <annox:annotate annox:class="jakarta.xml.bind.annotation.XmlRootElement" name="Informatiemodel" namespace="http://www.geostandaarden.nl/mim/mim-core/1.1"/>
+      </annox:annotate>
+    </jaxb:bindings>
+    </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:complexType[@name = 'xhtmlText']">
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_0.relatierol.XhtmlTextFactory.class, factoryMethod="createXhtmlText")</annox:annotateClass>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  
+  <jaxb:bindings schemaLocation="../../../xsd/1.1.0/MIMFORMAT_MimRef.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="nl.geostandaarden.mim_1_1_0.relatierol.ref"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings node="/*/xs:complexType[@name = 'RefType']">
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_0.relatierol.ref.RefTypeFactory.class, factoryMethod="createRefType")</annox:annotateClass>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  
+  <jaxb:bindings schemaLocation="../../../xsd/1.1.0/MIMFORMAT_MimExt.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="nl.geostandaarden.mim_1_1_0.relatierol.ext"/>
+    </jaxb:schemaBindings>
+    <jaxb:bindings node="/*/xs:complexType[@name = 'RefType']">
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_0.relatierol.ext.RefTypeFactory.class, factoryMethod="createRefType")</annox:annotateClass>
+    </jaxb:bindings>
+  </jaxb:bindings>
+  
+  <jaxb:bindings schemaLocation="../../../xsd/1.1.0/MIMFORMAT_Mim_relatierol.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="nl.geostandaarden.mim_1_1_0.relatierol"/>
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  
+  <jaxb:bindings schemaLocation="../../../xsd/1.1.0/xlink.xsd" node="/xs:schema">
+    <jaxb:schemaBindings>
+      <jaxb:package name="nl.geostandaarden.mim_1_1_0.relatierol.xlink"/>
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+  
+</jaxb:bindings>
