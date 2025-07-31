@@ -10,14 +10,13 @@ import nl.geostandaarden.mim.MimSerializationApi;
 import nl.geostandaarden.mim.error.MimSerializationApiException;
 import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
 import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
-import nl.geostandaarden.mim.interfaces.TargetProvider;
-import nl.geostandaarden.mim.interfaces.XhtmlSerializer;
 import nl.geostandaarden.mim_1_2.relatierol.Attribuutsoort;
 import nl.geostandaarden.mim_1_2.relatierol.Referentielijst;
+import nl.geostandaarden.mim_1_2.relatierol.XhtmlTextEx;
+import nl.geostandaarden.mim_1_2.relatierol.ref.RefTypeEx;
 
 /**
- * Sample that shows how to load (unmarshal, deserialize) a MIM XML serialization and display the names
- * of all Objecttypes in the first domain of the model.
+ * Sample that shows how to load (unmarshal, deserialize) an existing MIM XML serialization
  */
 public class LoadMimModel {
   
@@ -39,25 +38,24 @@ public class LoadMimModel {
     });
   }
   
+  /* Display the names of all Objecttypes in the first domain of the model: */
   public void displayNamesOfObjecttypesInFirstDomain() {
-    /* Display the names of all Objecttypes in the first domain of the model: */
     List<nl.geostandaarden.mim_1_2.relatierol.Objecttype> objectTypesInFirstDomain = mimModel.getInformatiemodel().getPackages().getDomein().get(0).getObjecttypen().getObjecttype();
     objectTypesInFirstDomain.forEach(
         objectType -> System.out.println(objectType.getNaam())
     );
   }
   
+  /* Displays a xhtml field as string: */
   public void displayXhtmlContent() throws MimSerializationApiXhtmlException {
-    /* Displays a xhtml field as string: */
-    
     /* Get an Objecttype by its name using a helper method: */
     nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Bankrekening");
     
-    /* Cast its definition field to the XhtmlSerializer interface: */
-    XhtmlSerializer ser = (XhtmlSerializer) objectType.getDefinitie();
+    /* Cast its definition field to the XhtmlTextEx interface: */
+    XhtmlTextEx definitie = (XhtmlTextEx) objectType.getDefinitie();
     
     /* Display the xhtml text: */
-    System.out.println(ser.getContentAsString());
+    System.out.println(definitie.getContentAsString());
   }
   
   public void followReference() {
@@ -67,11 +65,11 @@ public class LoadMimModel {
     /* Get its attribuut with name "kvk nummer": */
     Optional<Attribuutsoort> attr = objectType.getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> "kvk nummer".equals(((Attribuutsoort) a).getNaam())).findFirst();
     
-    /* Cast its DatatypeRef to the TargetProvider interface: */
-    TargetProvider targetProvider = (TargetProvider) attr.get().getType().getDatatypeRef();
+    /* Cast its DatatypeRef to a RefTypeEx: */
+    RefTypeEx refType = (RefTypeEx) attr.get().getType().getDatatypeRef();
     
     /* Get the name of the Referentielijst target: */
-    System.out.println(((Referentielijst) targetProvider.getTarget()).getNaam());
+    System.out.println(((Referentielijst) refType.getTarget()).getNaam());
   }
   
   public static void main(String[] args) throws Exception {

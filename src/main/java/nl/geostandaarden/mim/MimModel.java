@@ -90,7 +90,7 @@ public abstract class MimModel {
     this(mimDoc, null);
   }
   
-  public void serialize(OutputStream xmlSerialization, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
+  public void save(OutputStream xmlSerialization, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
     try {
       JAXBContext context = JAXBContext.newInstance(this.getInformatiemodelClass());
       Marshaller marshaller = context.createMarshaller();
@@ -106,8 +106,8 @@ public abstract class MimModel {
     }
   }
   
-  public void serialize(OutputStream xmlSerialization) throws MimSerializationApiSaveException {
-    serialize(xmlSerialization, null);
+  public void save(OutputStream xmlSerialization) throws MimSerializationApiSaveException {
+    save(xmlSerialization, null);
   }
   
   public void indexReferences() throws NoSuchMethodException, SecurityException, 

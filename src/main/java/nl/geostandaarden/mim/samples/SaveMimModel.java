@@ -8,15 +8,14 @@ import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.MimSerializationApi;
 import nl.geostandaarden.mim.MimSerializationApi.MIM_RELATIEMODELLERINGSTYPE;
 import nl.geostandaarden.mim.MimSerializationApi.MIM_VERSION;
-import nl.geostandaarden.mim.interfaces.XhtmlDeserializer;
-import nl.geostandaarden.mim_1_2.relatiesoort.XhtmlTextEx;
 import nl.geostandaarden.mim_1_2.relatiesoort.Domein;
 import nl.geostandaarden.mim_1_2.relatiesoort.Informatiemodel.Packages;
 import nl.geostandaarden.mim_1_2.relatiesoort.Relatiemodelleringstype;
+import nl.geostandaarden.mim_1_2.relatiesoort.XhtmlTextEx;
 
 /**
  * Sample that shows how to create a new MIM model, set the required properties 
- * of the Informatiemodel and save (marshall, deserialize) the model while validating it.
+ * of the Informatiemodel and save (marshal, serialize) the model while validating it.
  */
 public class SaveMimModel {
 
@@ -29,7 +28,7 @@ public class SaveMimModel {
     model.setNaam("Mijn model");
     model.setHerkomst("Dit is de herkomst");
     XhtmlTextEx xhtmlText = new XhtmlTextEx();
-    ((XhtmlDeserializer) xhtmlText).setContentAsString("<xhtml:body><xhtml:p>Dit is een tekst met <xhtml:b>mixed</xhtml:b> <xhtml:i>content</xhtml:i>.</xhtml:p></xhtml:body>");
+    xhtmlText.setContentAsString("<xhtml:body><xhtml:p>Dit is een tekst met <xhtml:b>mixed</xhtml:b> <xhtml:i>content</xhtml:i>.</xhtml:p></xhtml:body>");
     model.setDefinitie(xhtmlText);
     model.setHerkomstDefinitie("Dit is de herkomst van de definitie");
     model.setDatumOpname("2025-01-01");
@@ -49,7 +48,7 @@ public class SaveMimModel {
     
     /* Save (marshall, deserialize) the model: */ 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    mimModel.serialize(baos, new ValidationEventHandler() {
+    mimModel.save(baos, new ValidationEventHandler() {
       @Override
       public boolean handleEvent(ValidationEvent event) {
         System.out.println("Validation error: " + event.getMessage() + " (" + event.getSeverity() + ")");

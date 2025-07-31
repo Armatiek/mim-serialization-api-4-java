@@ -136,8 +136,8 @@ public class MimSerializationApi {
     throw new MimSerializationApiMimVersionException("Serialization is not MIM or MIM version could not be established");
   }
   
+  /*
   public static List<SAXParseException> validateMimSerialization(InputStream mimSerialization) throws SAXException, IOException, ParserConfigurationException {
-    /*
     Document mimDoc = loadDocument(mimSerialization);
     MimInfo mimInfo = getMimInfo(mimDoc);
     String xsdLocation = "xsd/" + versionLabelMap.get(mimInfo.getVersion()) + "/" + relTypeSchemaNameMap.get(mimInfo.getRelType()); 
@@ -152,52 +152,6 @@ public class MimSerializationApi {
       validator.validate(new DOMSource(mimDoc));  
     } catch (SAXParseException e)  { }
     return xsdErrorHandler.getExceptions();
-    */
-    return null; // TODO
-  }
-  
-  /*
-  public static String serializeXhtml(List<Object> objects) throws Exception {
-    StringBuilder sb = new StringBuilder();
-    for (Object obj: objects) {
-      if (obj instanceof String) {
-        sb.append((String) obj);
-      } else if (obj instanceof Element) {
-        sb.append(nodeToString((Element) obj));
-      }
-    }
-    return sb.toString();
-  }
-  
-  public static void deserializeXhtml(String xhtml, List<Object> objects) throws Exception {
-    String xml = "<xhtml:wrapper xmlns:xhtml=\"http://www.w3.org/1999/xhtml\" xmlns=\"http://www.w3.org/1999/xhtml\">" + xhtml + "</xhtml:wrapper>";
-    Document doc = loadDocument(new ByteArrayInputStream(xml.getBytes()));
-    Node node = doc.getDocumentElement().getFirstChild();
-    while (node != null) {
-      if (node.getNodeType() == Node.TEXT_NODE) {
-        objects.add(node.getTextContent());
-      } else if (node.getNodeType() == Node.ELEMENT_NODE) {
-        objects.add(node);
-      }
-      node = node.getNextSibling();
-    }
-  }
-  
-  private static String nodeToString(Node node) throws Exception {
-    if (node == null) {
-      return "";
-    }
-    TransformerFactory factory = TransformerFactory.newInstance();
-    Transformer transformer = factory.newTransformer();
-    transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-    transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-    transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-    transformer.setOutputProperty(OutputKeys.INDENT, "no");
-    DOMSource source = new DOMSource(node);
-    StringWriter sw = new StringWriter();
-    StreamResult result = new StreamResult(sw);
-    transformer.transform(source, result);
-    return sw.toString();
   }
   */
   

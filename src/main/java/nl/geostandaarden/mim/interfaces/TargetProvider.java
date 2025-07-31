@@ -8,4 +8,8 @@ public interface TargetProvider {
   
   public Object getTarget();
   
+  /* TODO:
+  public void setTarget(Object target);
+  */
+  
 }
