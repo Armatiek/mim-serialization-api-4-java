@@ -1,7 +1,7 @@
 # mim-serialization-api-4-java
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-The MIM serialization API for Java is a library for JVM based languages (Java, Kotlin, Scala, Groovy, Clojure etc.) for reading and writing MIM (Metamodel voor Informatiemodellering) XML serializations following MIM version 1.1.0, 1.1.1 and 1.2. The library makes use of the [JAXB](https://en.wikipedia.org/wiki/Jakarta_XML_Binding) framework to map Java classes to XML and vice versa based on the MIM XML Schemas. A number of the generated classes is extended to provide important extra functionality.
+The "MIM serialization API for Java" is a library for JVM based languages (Java, Kotlin, Scala, Groovy, Clojure etc.) for reading and writing MIM (Metamodel voor Informatiemodellering) XML serializations following MIM version 1.1.0, 1.1.1 and 1.2. The library makes use of the [JAXB](https://en.wikipedia.org/wiki/Jakarta_XML_Binding) framework to map Java classes to XML and vice versa based on the MIM XML Schemas. A number of the generated classes is extended to provide important extra functionality.
 
 ## Table of Contents
 
@@ -31,7 +31,13 @@ The MimModel that is returned is of one of the classes:
 
 depending on the MIM `versie` and the `relatiemodelleringstype` that the API detected in the MIM serialization. 
 
-The API can also validate the MIM serialization against the MIM XML schema during load:  
+The API can also validate the MIM serialization against the MIM XML schema during load: 
+
+```java
+public static MimModel loadModel(InputStream mimSerialization, ValidationEventHandler eventHandler) throws MimSerializationApiLoadException;
+```
+
+for instance:
 
 ```java
 MimModel mimModel = MimSerializationApi.loadModel(mimSerialization, new ValidationEventHandler() {
@@ -43,11 +49,11 @@ MimModel mimModel = MimSerializationApi.loadModel(mimSerialization, new Validati
 });
 ```
 
-Traversal of the MIM model starts with the Informatiemodel:
+Traversal of the MIM model starts with obtaining the Informatiemodel object:
 ```java
 Informatiemodel informatiemodel = mimModel.getInformatiemodel();
 ```
-For instance to get all Objecttypes of the first Domein:
+For instance getting all Objecttypes of the first Domein:
 ```java
 List<Objecttype> objectTypes = mimModel.getInformatiemodel().getPackages().getDomein().get(0).getObjecttypen().getObjecttype();
 ```
@@ -75,7 +81,7 @@ links from an Objecttype to its supertype and so on. In the MIM serialisation th
 </mim:Attribuutsoort>
 ```
 
-XLink is not supported by JAXB. Therefore all classes `RefType` (that are a mapping of the schema type `mim:RefType`) have a subclass `RefTypeEx` with two helper methods:
+XLink is not supported by JAXB. Therefore all `RefType` classes (that are a mapping of the schema type `mim:RefType`) have a subclass `RefTypeEx` with two helper methods:
 
 ```java
 public Object getTarget(); // To be used after loading a MIM serialization and traversing the model
@@ -84,7 +90,7 @@ public void setTarget(Object target); // To be used when constructing a new MIM 
 ```
 
 ### Getting and setting XHTML content
-A number of text fields in MIM (like Objecttype.definitie) can contain XHTML content. To support getting and setting XHTML as a string, all classes `XhtmlText` have a subclass `XhtmlTextEx` with two helper methods:
+A number of text fields in MIM (like Objecttype.definitie) can contain XHTML content. To support getting and setting XHTML as a string, all `XhtmlText` classes have a subclass `XhtmlTextEx` with two helper methods:
 ```java
 public void setContentAsString(String xhtml) throws MimSerializationApiXhtmlException;
 
@@ -102,7 +108,7 @@ MimModel mimModel = MimSerializationApi.newModel(MIM_VERSION.VERSION_1_2, MIM_RE
 
 In this example the mimModel will be of the class `nl.geostandaarden.mim_1_2.relatiesoort.MimModel`. 
 
-After the model is created the (required) properties of the Informationmodel object can be set and new model elements can be added, for instance:
+After the model is created the (required) properties of the `Informatiemodel` object can be set and new model elements can be added, for instance:
 
 ```java
 mimModel.setNaam("Mijn nieuwe model");
@@ -131,6 +137,12 @@ public void MimModel.save(OutputStream mimSerialization) throws MimSerialization
 ```
 
 The API can also validate the MIM serialization against the MIM XML schema during save:
+
+```java
+public void MimModel.save(OutputStream mimSerialization, ValidationEventHandler eventHandler) throws MimSerializationApiSaveException;
+```
+
+for instance:
 
 ```java
 mimModel.save(outputStream, new ValidationEventHandler() {
