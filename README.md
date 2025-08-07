@@ -12,6 +12,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
   - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
+- [Javadocs](#javadocs)
 
 ## Loading an existing MIM serialization
 
@@ -128,7 +129,7 @@ that provides one extra method:
 public void AttribuutsoortType getAttribuutsoortType();
 ```
 
-`AttribuutsoortType` is a marker interface that is implemented by the classes `Datatype`, `DatatypeAbstract` (and all its subclasses like `PrimitiefDatatype`, `Codelijst` and `Referentielijst`), `Keuze` and `Constructie` (see TODO).
+`AttribuutsoortType` is a marker interface that is implemented by the classes `Datatype`, `DatatypeAbstract` (and all its subclasses like `PrimitiefDatatype`, `Codelijst` and `Referentielijst`), `Keuze` and `Constructie` (see [AttribuutsoortType](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/nl/geostandaarden/mim/interfaces/AttribuutsoortType.html) javadocs).
 
 See the sample application: [LoadMimModel.java](src/main/java/nl/geostandaarden/mim/samples/LoadMimModel.java)
 
@@ -196,4 +197,8 @@ mimModel.save(outputStream, new ValidationEventHandler() {
   }
 });
 ```
+
 See the sample application: [SaveMimModel.java](src/main/java/nl/geostandaarden/mim/samples/SaveMimModel.java)
+
+## Javadocs
+See [MIM serialization API for Java Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html)
