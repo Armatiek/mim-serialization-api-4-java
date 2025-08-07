@@ -160,8 +160,6 @@ domeinContacts.setId("domein-contacten");
 
 TODO: add text about reference indexing
 
-TODO: add text how to use the extended classes
-
 ## Saving a MIM model
 A MIM model can be saved (or "marshalled", "serialized") using the `save` methods of `MimModel`:
 
