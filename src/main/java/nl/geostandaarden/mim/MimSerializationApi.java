@@ -1,9 +1,11 @@
 package nl.geostandaarden.mim;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -14,7 +16,6 @@ import org.apache.commons.jxpath.JXPathContext;
 import org.apache.commons.jxpath.Variables;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
@@ -83,9 +84,21 @@ public class MimSerializationApi {
     }
   }
   
+  public static MimModel loadModel(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiLoadException {
+    try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(mimSerializationPath.toFile()))) {
+      return loadModel(bis, validationEventHandler);
+    } catch (IOException e) {
+      throw new MimSerializationApiLoadException(e.getMessage(), e);
+    }
+  }
+  
   public static MimModel loadModel(InputStream mimSerialization) throws MimSerializationApiLoadException {
     return loadModel(mimSerialization, null);
   }
+  
+  public static MimModel loadModel(Path mimSerializationPath) throws MimSerializationApiLoadException {
+    return loadModel(mimSerializationPath, null);
+  }  
   
   public static MimModel newModel(MIM_VERSION version, MIM_RELATIEMODELLERINGSTYPE relType) {
     switch (version) {
@@ -135,25 +148,6 @@ public class MimSerializationApi {
       return new MimInfo(MIM_VERSION.VERSION_1_1_0, MIM_RELATIEMODELLERINGSTYPE.RELATIEROL_LEIDEND);
     throw new MimSerializationApiMimVersionException("Serialization is not MIM or MIM version could not be established");
   }
-  
-  /*
-  public static List<SAXParseException> validateMimSerialization(InputStream mimSerialization) throws SAXException, IOException, ParserConfigurationException {
-    Document mimDoc = loadDocument(mimSerialization);
-    MimInfo mimInfo = getMimInfo(mimDoc);
-    String xsdLocation = "xsd/" + versionLabelMap.get(mimInfo.getVersion()) + "/" + relTypeSchemaNameMap.get(mimInfo.getRelType()); 
-    File xsdFile = new File(MimSerializationApi.class.getClassLoader().getResource(xsdLocation).getFile());
-    SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-    Source schemaFile = new StreamSource(xsdFile);
-    Schema schema = factory.newSchema(schemaFile);
-    Validator validator = schema.newValidator();
-    XmlErrorHandler xsdErrorHandler = new XmlErrorHandler();
-    validator.setErrorHandler(xsdErrorHandler);
-    try {
-      validator.validate(new DOMSource(mimDoc));  
-    } catch (SAXParseException e)  { }
-    return xsdErrorHandler.getExceptions();
-  }
-  */
   
   private static Document loadDocument(InputStream inputStream) throws SAXException, IOException, ParserConfigurationException {
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();

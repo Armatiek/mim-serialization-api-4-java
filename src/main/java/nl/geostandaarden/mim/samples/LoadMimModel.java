@@ -11,6 +11,8 @@ import nl.geostandaarden.mim.error.MimSerializationApiException;
 import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
 import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
 import nl.geostandaarden.mim_1_2.relatierol.Attribuutsoort;
+import nl.geostandaarden.mim_1_2.relatierol.AttribuutsoortEx;
+import nl.geostandaarden.mim_1_2.relatierol.Codelijst;
 import nl.geostandaarden.mim_1_2.relatierol.Referentielijst;
 import nl.geostandaarden.mim_1_2.relatierol.XhtmlTextEx;
 import nl.geostandaarden.mim_1_2.relatierol.ref.RefTypeEx;
@@ -72,6 +74,23 @@ public class LoadMimModel {
     System.out.println(((Referentielijst) refType.getTarget()).getNaam());
   }
   
+  public void getAttribuutsoortType() {
+    /* Get an Objecttype by its name using a helper method: */
+    nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
+    
+    /* Get its attribuut with name "kvk nummer": */
+    Optional<Attribuutsoort> attr = objectType.getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> "kvk nummer".equals(((Attribuutsoort) a).getNaam())).findFirst();
+    
+    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr.get();
+    
+    if (attrEx.getAttribuutsoortType() instanceof Codelijst) {
+      System.out.println("Codelijst: " + ((Codelijst) attrEx.getAttribuutsoortType()).getNaam());
+    } else if (attrEx.getAttribuutsoortType() instanceof Referentielijst) {
+      System.out.println("Referentielijst: " + ((Referentielijst) attrEx.getAttribuutsoortType()).getNaam());
+    }
+    
+  }
+  
   public static void main(String[] args) throws Exception {
     LoadMimModel lmm = new LoadMimModel();
     try {
@@ -79,6 +98,7 @@ public class LoadMimModel {
       lmm.displayNamesOfObjecttypesInFirstDomain();
       lmm.displayXhtmlContent();
       lmm.followReference();
+      lmm.getAttribuutsoortType();
     } catch (MimSerializationApiException e) {
       e.printStackTrace(System.err);
     }

@@ -1,9 +1,13 @@
 package nl.geostandaarden.mim;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -24,12 +28,12 @@ import jakarta.xml.bind.JAXBElement;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.Unmarshaller.Listener;
+import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.MimSerializationApi.MIM_RELATIEMODELLERINGSTYPE;
 import nl.geostandaarden.mim.MimSerializationApi.MIM_VERSION;
 import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
 import nl.geostandaarden.mim.error.MimSerializationApiSaveException;
 import nl.geostandaarden.mim.interfaces.TargetProvider;
-import jakarta.xml.bind.ValidationEventHandler;
 
 public abstract class MimModel {
      
@@ -90,7 +94,7 @@ public abstract class MimModel {
     this(mimDoc, null);
   }
   
-  public void save(OutputStream xmlSerialization, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
+  public void save(OutputStream mimSerialization, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
     try {
       JAXBContext context = JAXBContext.newInstance(this.getInformatiemodelClass());
       Marshaller marshaller = context.createMarshaller();
@@ -100,14 +104,26 @@ public abstract class MimModel {
         marshaller.setEventHandler(validationEventHandler);
       }
       marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, this.getXmlNamespace() + " " + "../" + this.getXmlSchemaName());
-      marshaller.marshal(getInformatiemodelWrapper(), xmlSerialization);
+      marshaller.marshal(getInformatiemodelWrapper(), mimSerialization);
     } catch (Exception e) {
       throw new MimSerializationApiSaveException(e.getMessage(), e);
     }
   }
   
-  public void save(OutputStream xmlSerialization) throws MimSerializationApiSaveException {
-    save(xmlSerialization, null);
+  public void save(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
+    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(mimSerializationPath.toFile()))) {
+      save(bos, validationEventHandler);
+    } catch (IOException e) {
+      throw new MimSerializationApiSaveException(e.getMessage(), e);
+    }  
+  }
+  
+  public void save(OutputStream mimSerialization) throws MimSerializationApiSaveException {
+    save(mimSerialization, null);
+  }
+  
+  public void save(Path mimSerializationPath) throws MimSerializationApiSaveException {
+    save(mimSerializationPath, null);
   }
   
   public void indexReferences() throws NoSuchMethodException, SecurityException, 

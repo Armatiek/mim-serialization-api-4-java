@@ -9,10 +9,15 @@
   
   <jaxb:bindings schemaLocation="../../../xsd/1.1.1/MIMFORMAT_Mim.xsd" node="/xs:schema">
     <jaxb:bindings node="/*/xs:complexType[@name='Datatype']">
-      <jaxb:class name="DatatypeCT"/>
+      <jaxb:class name="DatatypeAbstract"/>
+      <inheritance:implements>nl.geostandaarden.mim.interfaces.AttribuutsoortType</inheritance:implements>
     </jaxb:bindings>
     <jaxb:bindings node="/*/xs:element[@name='Datatype']">
-      <jaxb:class name="DatatypeEL"/>
+      <jaxb:class name="Datatype"/>
+      <inheritance:implements>nl.geostandaarden.mim.interfaces.AttribuutsoortType</inheritance:implements>
+    </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:complexType[@name='Keuze']">
+      <inheritance:implements>nl.geostandaarden.mim.interfaces.AttribuutsoortType</inheritance:implements>
     </jaxb:bindings>
     <jaxb:bindings node="/*/xs:complexType[@name='Informatiemodel']">
       <annox:annotate target="class">
@@ -20,7 +25,10 @@
       </annox:annotate>
     </jaxb:bindings>
     <jaxb:bindings node="/*/xs:complexType[@name = 'xhtmlText']">
-      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_1.relatierol.XhtmlTextFactory.class, factoryMethod="createXhtmlText")</annox:annotateClass>
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_1.relatierol.ObjectExFactory.class, factoryMethod="createXhtmlText")</annox:annotateClass>
+    </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:complexType[@name = 'Attribuutsoort']">
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_1.relatierol.ObjectExFactory.class, factoryMethod="createAttribuutsoort")</annox:annotateClass>
     </jaxb:bindings>
   </jaxb:bindings>
   
@@ -39,6 +47,10 @@
     </jaxb:schemaBindings>
     <jaxb:bindings node="/*/xs:complexType[@name = 'RefType']">
       <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_1_1.relatierol.ref.RefTypeFactory.class, factoryMethod="createRefType")</annox:annotateClass>
+    </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:element[@name='Constructie']">
+      <jaxb:class name="Constructie"/>
+      <inheritance:implements>nl.geostandaarden.mim.interfaces.AttribuutsoortType</inheritance:implements>
     </jaxb:bindings>
   </jaxb:bindings>
   
