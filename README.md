@@ -9,6 +9,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
 - [Loading an existing MIM serialization](#loading-an-existing-mim-serialization)
   - [Following links](#following-links)
   - [Getting and setting XHTML content](#getting-and-setting-xhtml-content)
+  - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
 
