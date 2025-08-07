@@ -167,10 +167,22 @@ A MIM model can be saved (or "marshalled", "serialized") using the `save` method
 public void MimModel.save(OutputStream mimSerialization) throws MimSerializationApiSaveException;
 ```
 
+or:
+
+```java
+public void MimModel.save(Path mimSerializationPath) throws MimSerializationApiSaveException;
+```
+
 The API can also validate the MIM serialization against the MIM XML schema during save:
 
 ```java
 public void MimModel.save(OutputStream mimSerialization, ValidationEventHandler eventHandler) throws MimSerializationApiSaveException;
+```
+
+or:
+
+```java
+public void MimModel.save(Path mimSerializationPath, ValidationEventHandler eventHandler) throws MimSerializationApiSaveException;
 ```
 
 for instance:
