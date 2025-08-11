@@ -10,6 +10,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
   - [Following links](#following-links)
   - [Getting and setting XHTML content](#getting-and-setting-xhtml-content)
   - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
+  - [Getting the Attribuutsoort of an Objecttype by name](#getting-the-attribuutsoort-of-an-objecttype-by-name)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
 - [Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html)
@@ -132,6 +133,15 @@ public void AttribuutsoortType getAttribuutsoortType();
 `AttribuutsoortType` is a marker interface that is implemented by the classes `Datatype`, `DatatypeAbstract` (and all its subclasses like `PrimitiefDatatype`, `Codelijst` and `Referentielijst`), `Keuze` and `Constructie` (see [AttribuutsoortType](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/nl/geostandaarden/mim/interfaces/AttribuutsoortType.html) javadocs).
 
 See the sample application: [LoadMimModel.java](src/main/java/nl/geostandaarden/mim/samples/LoadMimModel.java)
+
+### Getting the Attribuutsoort of an Objecttype by name
+You can get the `Attribuutsoort` of an `Objecttype` by name by casting the `Objecttype` to `ObjecttypeEx` and use th method:
+
+```java
+public void Attribuutsoort getAttribuutsoort(String name);
+```
+
+The name is case sensitive. When no `Attribuutsoort` with the name exists, `null` is returned.
 
 ## Creating a new MIM model
 A new MIM model can be created using the method `MimSerializationApi.newModel`, for instance:
