@@ -2,11 +2,11 @@ package nl.geostandaarden.mim;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,8 +110,8 @@ public abstract class MimModel {
     }
   }
   
-  public void save(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {
-    try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(mimSerializationPath.toFile()))) {
+  public void save(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiSaveException {    
+    try (BufferedOutputStream bos = new BufferedOutputStream(Files.newOutputStream(mimSerializationPath))) {
       save(bos, validationEventHandler);
     } catch (IOException e) {
       throw new MimSerializationApiSaveException(e.getMessage(), e);

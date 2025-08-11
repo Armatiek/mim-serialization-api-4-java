@@ -1,9 +1,9 @@
 package nl.geostandaarden.mim;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -85,7 +85,7 @@ public class MimSerializationApi {
   }
   
   public static MimModel loadModel(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiLoadException {
-    try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(mimSerializationPath.toFile()))) {
+    try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(mimSerializationPath))) {
       return loadModel(bis, validationEventHandler);
     } catch (IOException e) {
       throw new MimSerializationApiLoadException(e.getMessage(), e);

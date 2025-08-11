@@ -45,6 +45,7 @@ public class SaveMimModel {
     packages.getDomein().add(domein);
    
     domein.setId("my-domain");
+    domein.setNaam("MyName");
     
     /* Save (marshall, deserialize) the model: */ 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
