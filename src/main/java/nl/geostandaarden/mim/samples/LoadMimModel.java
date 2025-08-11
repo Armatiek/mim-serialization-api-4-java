@@ -2,7 +2,6 @@ package nl.geostandaarden.mim.samples;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.xml.bind.ValidationEvent;
 import jakarta.xml.bind.ValidationEventHandler;
@@ -13,8 +12,11 @@ import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
 import nl.geostandaarden.mim_1_2.relatierol.Attribuutsoort;
 import nl.geostandaarden.mim_1_2.relatierol.AttribuutsoortEx;
 import nl.geostandaarden.mim_1_2.relatierol.Codelijst;
+import nl.geostandaarden.mim_1_2.relatierol.Objecttype;
+import nl.geostandaarden.mim_1_2.relatierol.ObjecttypeEx;
 import nl.geostandaarden.mim_1_2.relatierol.Referentielijst;
 import nl.geostandaarden.mim_1_2.relatierol.XhtmlTextEx;
+import nl.geostandaarden.mim_1_2.relatierol.ref.RefType;
 import nl.geostandaarden.mim_1_2.relatierol.ref.RefTypeEx;
 
 /**
@@ -60,18 +62,23 @@ public class LoadMimModel {
     System.out.println(definitie.getContentAsString());
   }
   
-  public void followReference() {
+  public void followReferences() {
     /* Get an Objecttype by its name using a helper method: */
     nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
     
-    /* Get its attribuut with name "kvk nummer": */
-    Optional<Attribuutsoort> attr = objectType.getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> "kvk nummer".equals(((Attribuutsoort) a).getNaam())).findFirst();
-    
-    /* Cast its DatatypeRef to a RefTypeEx: */
-    RefTypeEx refType = (RefTypeEx) attr.get().getType().getDatatypeRef();
-    
-    /* Get the name of the Referentielijst target: */
-    System.out.println(((Referentielijst) refType.getTarget()).getNaam());
+    /* Iterate the references to the supertypes: */
+    objectType.getSupertypen().getGeneralisatieObjecttypen().forEach(
+      gen -> 
+        {
+          RefType objectypeRef = gen.getSupertype().getObjecttypeRef();
+          
+          /* Cast the RefType to a RefTypeEx: */
+          RefTypeEx refType = (RefTypeEx) objectypeRef;
+          
+          /* Get the name of the supertype: */
+          System.out.println(((Objecttype) refType.getTarget()).getNaam());
+        }     
+    );
   }
   
   public void getAttribuutsoortType() {
@@ -79,9 +86,9 @@ public class LoadMimModel {
     nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
     
     /* Get its attribuut with name "kvk nummer": */
-    Optional<Attribuutsoort> attr = objectType.getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> "kvk nummer".equals(((Attribuutsoort) a).getNaam())).findFirst();
+    Attribuutsoort attr = ((ObjecttypeEx) objectType).getAttribuutsoort("kvk nummer");
     
-    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr.get();
+    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr;
     
     if (attrEx.getAttribuutsoortType() instanceof Codelijst) {
       System.out.println("Codelijst: " + ((Codelijst) attrEx.getAttribuutsoortType()).getNaam());
@@ -97,7 +104,7 @@ public class LoadMimModel {
       lmm.loadModel();
       lmm.displayNamesOfObjecttypesInFirstDomain();
       lmm.displayXhtmlContent();
-      lmm.followReference();
+      lmm.followReferences();
       lmm.getAttribuutsoortType();
     } catch (MimSerializationApiException e) {
       e.printStackTrace(System.err);

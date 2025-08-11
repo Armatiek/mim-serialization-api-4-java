@@ -30,6 +30,9 @@
     <jaxb:bindings node="/*/xs:complexType[@name = 'Attribuutsoort']">
       <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_2.relatiesoort.ObjectExFactory.class, factoryMethod="createAttribuutsoort")</annox:annotateClass>
     </jaxb:bindings>
+    <jaxb:bindings node="/*/xs:complexType[@name = 'Objecttype']">
+      <annox:annotateClass>@jakarta.xml.bind.annotation.XmlType(factoryClass=nl.geostandaarden.mim_1_2.relatiesoort.ObjectExFactory.class, factoryMethod="createObjecttype")</annox:annotateClass>
+    </jaxb:bindings>
   </jaxb:bindings>
   
   <jaxb:bindings schemaLocation="../../../xsd/1.2/MIMFORMAT_MimRef.xsd" node="/xs:schema">

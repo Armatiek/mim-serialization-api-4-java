@@ -10,4 +10,8 @@ public class ObjectExFactory {
     return new XhtmlTextEx();
   }
   
+  public static Objecttype createObjecttype() {
+    return new ObjecttypeEx();
+  }
+  
 }
