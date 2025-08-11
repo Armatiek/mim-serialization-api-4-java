@@ -1,7 +1,7 @@
 # mim-serialization-api-4-java
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
-The "MIM serialization API for Java" is a library for JVM based languages (Java, Kotlin, Scala, Groovy, Clojure etc.) for reading and writing [MIM (Metamodel voor Informatiemodellering)](https://docs.geostandaarden.nl/mim/mim/) XML serializations following MIM versions 1.1.0, 1.1.1 and 1.2. The library makes use of the [JAXB](https://en.wikipedia.org/wiki/Jakarta_XML_Binding) framework to map Java classes to XML and vice versa based on the [MIM XML Schemas](src/main/resources/xsd). A number of the generated classes is extended to provide important extra functionality.
+The "MIM serialization API for Java" is a library for JVM based languages (Java, Kotlin, Scala, Groovy, Clojure etc.) for reading and writing [MIM](https://docs.geostandaarden.nl/mim/mim/) (Metamodel voor Informatiemodellering) XML serializations following MIM versions 1.1.0, 1.1.1 and 1.2. The library makes use of the [JAXB](https://en.wikipedia.org/wiki/Jakarta_XML_Binding) framework to map Java classes to XML and vice versa based on the [MIM XML Schemas](src/main/resources/xsd). A number of the generated classes is extended to provide important extra functionality.
 
 ## Table of Contents
 
@@ -12,7 +12,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
   - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
-- [Javadocs](#javadocs)
+- [Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html)
 
 ## Loading an existing MIM serialization
 
@@ -63,7 +63,7 @@ MimModel mimModel = MimSerializationApi.loadModel(mimSerialization, new Validati
 });
 ```
 
-The return value of the `handleEvent` method indicates that the loading only should continue if the severity of the parse error is WARNING.
+The return value of the `handleEvent` method indicates that the loading should only continue if the severity of the parse error is WARNING.
 
 Traversal of the MIM model starts with obtaining the Informatiemodel object:
 ```java
@@ -199,6 +199,3 @@ mimModel.save(outputStream, new ValidationEventHandler() {
 ```
 
 See the sample application: [SaveMimModel.java](src/main/java/nl/geostandaarden/mim/samples/SaveMimModel.java)
-
-## Javadocs
-See [MIM serialization API for Java Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html).
