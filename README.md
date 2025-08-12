@@ -1,4 +1,4 @@
-# mim-serialization-api-4-java
+# MIM serialization API for Java
 [![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
 
 The "MIM serialization API for Java" is a library for JVM based languages (Java, Kotlin, Scala, Groovy, Clojure etc.) for reading and writing [MIM](https://docs.geostandaarden.nl/mim/mim/) (Metamodel voor Informatiemodellering) XML serializations following MIM versions 1.1.0, 1.1.1 and 1.2. The library makes use of the [JAXB](https://en.wikipedia.org/wiki/Jakarta_XML_Binding) framework to map Java classes to XML and vice versa based on the [MIM XML Schemas](src/main/resources/xsd). A number of the generated classes is extended to provide important extra functionality.
