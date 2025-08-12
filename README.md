@@ -6,6 +6,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
 ## Table of Contents
 
 - [Overview](#overview)
+- [Adding the API to your build](#adding-the-api-to-your-build)
 - [Loading an existing MIM serialization](#loading-an-existing-mim-serialization)
   - [Following links](#following-links)
   - [Getting and setting XHTML content](#getting-and-setting-xhtml-content)
@@ -14,6 +15,29 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
 - [Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html)
+
+
+## Adding the API to your build
+
+The API's Maven group ID is `nl.armatiek.mim`, and its artifact ID is `mim-serialization-api`.
+
+To add a dependency on the API using Maven, use the following:
+
+```xml
+<dependency>
+  <groupId>nl.armatiek.mim</groupId>
+  <artifactId>mim-serialization-api</artifactId>
+  <version>0.9.0</version>
+</dependency>
+```
+
+To add a dependency using Gradle:
+
+```gradle
+dependencies {
+  implementation("nl.armatiek.mim:mim-serialization-api:0.9.0")
+}
+```
 
 ## Loading an existing MIM serialization
 
