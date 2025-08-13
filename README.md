@@ -5,7 +5,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
 
 ## Table of Contents
 
-- [Overview](#overview)
+- [Overview](#mim-serialization-api-for-java)
 - [Adding the API to your build](#adding-the-api-to-your-build)
 - [Loading an existing MIM serialization](#loading-an-existing-mim-serialization)
   - [Following links](#following-links)
@@ -63,7 +63,7 @@ The MimModel that is returned is of one of the classes:
 * `nl.geostandaarden.mim_1_1_0.relatiesoort.MimModel`
 * `nl.geostandaarden.mim_1_1_0.relatierol.MimModel`
 
-depending on the MIM `versie` and the `relatiemodelleringstype` that the API detected in the MIM serialization. 
+depending on the MIM `versie` and the `relatiemodelleringstype` ("Relatiesoort leidend" or "Relatierol leidend") that the API detected in the MIM serialization. 
 
 The API can also validate the MIM serialization against the MIM XML schema during load: 
 
