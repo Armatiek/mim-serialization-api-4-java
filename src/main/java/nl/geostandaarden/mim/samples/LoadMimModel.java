@@ -2,20 +2,15 @@ package nl.geostandaarden.mim.samples;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.xml.bind.ValidationEvent;
 import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.MimSerializationApi;
-import nl.geostandaarden.mim.error.MimSerializationApiException;
-import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
-import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
-import nl.geostandaarden.mim_1_2.relatierol.Attribuutsoort;
-import nl.geostandaarden.mim_1_2.relatierol.AttribuutsoortEx;
-import nl.geostandaarden.mim_1_2.relatierol.Codelijst;
-import nl.geostandaarden.mim_1_2.relatierol.Objecttype;
-import nl.geostandaarden.mim_1_2.relatierol.ObjecttypeEx;
-import nl.geostandaarden.mim_1_2.relatierol.Referentielijst;
-import nl.geostandaarden.mim_1_2.relatierol.XhtmlTextEx;
+import nl.geostandaarden.mim.error.*;
+import nl.geostandaarden.mim.interfaces.AttribuutsoortType;
+import nl.geostandaarden.mim_1_2.relatierol.*;
+import nl.geostandaarden.mim_1_2.relatierol.ext.*;
 import nl.geostandaarden.mim_1_2.relatierol.ref.RefType;
 import nl.geostandaarden.mim_1_2.relatierol.ref.RefTypeEx;
 
@@ -43,17 +38,17 @@ public class LoadMimModel {
   }
   
   /* Display the names of all Objecttypes in the first domain of the model: */
-  public void displayNamesOfObjecttypesInFirstDomain() {
-    List<nl.geostandaarden.mim_1_2.relatierol.Objecttype> objectTypesInFirstDomain = mimModel.getInformatiemodel().getPackages().getDomein().get(0).getObjecttypen().getObjecttype();
+  public void displayNamesOfAllObjecttypesInFirstDomain() {
+    List<Objecttype> objectTypesInFirstDomain = mimModel.getInformatiemodel().getPackages().getDomein().get(0).getObjecttypen().getObjecttype();
     objectTypesInFirstDomain.forEach(
-        objectType -> System.out.println(objectType.getNaam())
+      objectType -> System.out.println(objectType.getNaam())
     );
   }
   
   /* Displays a xhtml field as string: */
   public void displayXhtmlContent() throws MimSerializationApiXhtmlException {
     /* Get an Objecttype by its name using a helper method: */
-    nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Bankrekening");
+    Objecttype objectType = mimModel.getObjecttypeByName("Bankrekening");
     
     /* Cast its definition field to the XhtmlTextEx interface: */
     XhtmlTextEx definitie = (XhtmlTextEx) objectType.getDefinitie();
@@ -64,7 +59,7 @@ public class LoadMimModel {
   
   public void followReferences() {
     /* Get an Objecttype by its name using a helper method: */
-    nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
+    Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
     
     /* Iterate the references to the supertypes: */
     objectType.getSupertypen().getGeneralisatieObjecttypen().forEach(
@@ -81,19 +76,35 @@ public class LoadMimModel {
     );
   }
   
-  public void getAttribuutsoortType() {
+  public void displayAttribuutsoortType() {
     /* Get an Objecttype by its name using a helper method: */
-    nl.geostandaarden.mim_1_2.relatierol.Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
+    Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
     
     /* Get its attribuut with name "kvk nummer": */
-    Attribuutsoort attr = ((ObjecttypeEx) objectType).getAttribuutsoort("kvk nummer");
-    
-    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr;
-    
-    if (attrEx.getAttribuutsoortType() instanceof Codelijst) {
-      System.out.println("Codelijst: " + ((Codelijst) attrEx.getAttribuutsoortType()).getNaam());
-    } else if (attrEx.getAttribuutsoortType() instanceof Referentielijst) {
-      System.out.println("Referentielijst: " + ((Referentielijst) attrEx.getAttribuutsoortType()).getNaam());
+    Optional<Attribuutsoort> attr = ((ObjecttypeEx) objectType).getAttribuutsoort("kvk nummer");
+    if (attr.isEmpty()) {
+      System.out.println("Attribuut \"kvk nummer\" of Objecttype \"Leverancier\" not found");
+      return;
+    }
+    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr.get();
+
+    AttribuutsoortType type = attrEx.getAttribuutsoortType();    
+    if (type instanceof Datatype) {
+      System.out.println("Datatype: " + ((Datatype) type).getValue());
+    } else if (type instanceof PrimitiefDatatype) {
+      System.out.println("PrimitiefDatatype: " + ((PrimitiefDatatype) type).getNaam());
+    } else if (type instanceof GestructureerdDatatype) {
+      System.out.println("GestructureerdDatatype: " + ((PrimitiefDatatype) type).getNaam());
+    } else if (type instanceof Codelijst) {
+      System.out.println("Codelijst: " + ((Codelijst) type).getNaam());
+    } else if (type instanceof Referentielijst) {
+      System.out.println("Referentielijst: " + ((Referentielijst) type).getNaam());
+    } else if (type instanceof Enumeratie) {
+      System.out.println("Enumeratie: " + ((Enumeratie) type).getNaam());
+    } else if (type instanceof Keuze) {
+      System.out.println("Keuze: " + ((Keuze) type).getNaam());
+    } else if (type instanceof Constructie) {
+      System.out.println("Constructie: " + ((Constructie) type).getId());
     }
     
   }
@@ -102,10 +113,10 @@ public class LoadMimModel {
     LoadMimModel lmm = new LoadMimModel();
     try {
       lmm.loadModel();
-      lmm.displayNamesOfObjecttypesInFirstDomain();
+      lmm.displayNamesOfAllObjecttypesInFirstDomain();
       lmm.displayXhtmlContent();
       lmm.followReferences();
-      lmm.getAttribuutsoortType();
+      lmm.displayAttribuutsoortType();
     } catch (MimSerializationApiException e) {
       e.printStackTrace(System.err);
     }
