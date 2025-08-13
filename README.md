@@ -11,7 +11,8 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
   - [Following links](#following-links)
   - [Getting and setting XHTML content](#getting-and-setting-xhtml-content)
   - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
-  - [Getting the Attribuutsoort of an Objecttype by name](#getting-the-attribuutsoort-of-an-objecttype-by-name)
+  - [Getting the supertypes of an Objecttype](#getting-the-supertypes-of-an-objecttype)
+  - [Getting model elements of an Objecttype by name](#getting-model-elements-of-an-objecttype-by-name)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
 - [Saving a MIM model](#saving-a-mim-model)
 - [Javadocs](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/index.html)
@@ -151,19 +152,43 @@ To obtain the actual type using the JAXB generated classes involves calling a lo
 that provides one extra method:
 
 ```java
-public void AttribuutsoortType getAttribuutsoortType();
+public AttribuutsoortType getAttribuutsoortType();
 ```
 
 `AttribuutsoortType` is a marker interface that is implemented by the classes `Datatype`, `DatatypeAbstract` (and all its subclasses like `PrimitiefDatatype`, `Codelijst` and `Referentielijst`), `Keuze` and `Constructie` (see [AttribuutsoortType](https://armatiek.github.io/mim-serialization-api-4-java/apidocs/nl/geostandaarden/mim/interfaces/AttribuutsoortType.html) javadocs).
 
-### Getting the Attribuutsoort of an Objecttype by name
-You can get the `Attribuutsoort` of an `Objecttype` by name by casting the `Objecttype` to `ObjecttypeEx` and use th method:
+### Getting the supertypes of an Objecttype
+You can get the supertypes of an `Objecttype` by casting the `Objecttype` to `ObjecttypeEx` and use the method:
 
 ```java
-public void Attribuutsoort getAttribuutsoort(String name);
+public List<Objecttype> getSupertypen(boolean excludeStaticOrMixinTypes); // MIM 1.2+
 ```
 
-The name is case sensitive. When no `Attribuutsoort` with the name exists, `null` is returned.
+or:
+
+```java
+public List<Objecttype> getSupertypen(boolean excludeStaticTypes); // MIM 1.1.*
+```
+
+Using the parameter `excludeStaticOrMixinTypes` or `excludeStaticTypes` it is possible to filter out any non-direct "static" or "mixin" supertypes. 
+
+### Getting model elements of an Objecttype by name
+You can get the "inner" model elements of an `Objecttype` by name by casting the `Objecttype` to `ObjecttypeEx` and use one of the methods:
+
+```java
+public Optional<Attribuutsoort> getAttribuutsoort(String name);
+
+public Optional<Gegevensgroep> getGegevensgroep(String name);
+
+public Optional<Relatiesoort> getRelatiesoort(String name);
+
+public Optional<Keuze> getKeuze(String name);
+
+public Optional<Constraint> getConstraint(String name);
+
+public Optional<Kenmerk> getKenmerk(String name);
+```
+The name is always case sensitive.
 
 See the sample application: [LoadMimModel.java](src/main/java/nl/geostandaarden/mim/samples/LoadMimModel.java)
 
