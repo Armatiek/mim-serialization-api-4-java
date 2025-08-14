@@ -2,7 +2,7 @@
 <!--
 =============================================================================================
 Dit bestand bevat een XML serialisatie van een informatiemodel dat is gemodelleerd volgens de 
-"Metamodel Informatie Modellering (MIM)" standaard versie 1.1.1.
+"Metamodel Informatie Modellering (MIM)" standaard versie 1.2.
 Zie: https://docs.geostandaarden.nl/mim/mim/ voor de laatste versie van de standaard.
 
 In deze serialisatie komen <mim-ref:xRef> elementen voor, zoals <mim-ref:ObjecttypeRef>. 
@@ -15,14 +15,14 @@ Waar mogelijk is een referentie naar de officiele uitleg (met name de MIM standa
 commentaar toegevoegd. Dat is alleen bij de éérste opkomst van een contructie gedaan.
 =============================================================================================
 -->
-<mim:Informatiemodel xmlns:mim="http://www.geostandaarden.nl/mim/mim-core/1.1"
+<mim:Informatiemodel xmlns:mim="http://www.geostandaarden.nl/mim/mim-core/1.2"
                      xmlns:mim-ext="http://www.geostandaarden.nl/mim/mim-ext/1.0"
                      xmlns:mim-ref="http://www.geostandaarden.nl/mim/mim-ref/1.0"
                      xmlns:xhtml="http://www.w3.org/1999/xhtml"
                      xmlns:xlink="http://www.w3.org/1999/xlink"
                      xmlns:xs="http://www.w3.org/2001/XMLSchema"
                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                     xsi:schemaLocation="http://www.geostandaarden.nl/mim/mim-core/1.1 ../MIMFORMAT_Mim_relatierol.xsd">
+                     xsi:schemaLocation="http://www.geostandaarden.nl/mim/mim-core/1.2 ../MIMFORMAT_Mim_relatierol.xsd">
    <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-naam-->
    <mim:naam>Fietsenwinkel</mim:naam>
    <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-herkomst-->
@@ -37,10 +37,10 @@ commentaar toegevoegd. Dat is alleen bij de éérste opkomst van een contructie 
    <mim:informatiemodeltype>Conceptueel</mim:informatiemodeltype>
    <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-informatiedomein-->
    <mim:informatiedomein>detailhandel</mim:informatiedomein>
-   <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-relatiemodelleringtype-->
-   <mim:relatiemodelleringtype>Relatierol leidend</mim:relatiemodelleringtype>
+   <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-relatiemodelleringstype-->
+   <mim:relatiemodelleringstype>Relatierol leidend</mim:relatiemodelleringstype>
    <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-mim-versie-->
-   <mim:MIMVersie>1.1.1</mim:MIMVersie>
+   <mim:MIMVersie>1.2</mim:MIMVersie>
    <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-mim-taal-->
    <mim:MIMTaal>NL</mim:MIMTaal>
    <mim:packages><!--https://docs.geostandaarden.nl/mim/mim/#domein-->
@@ -468,7 +468,7 @@ commentaar toegevoegd. Dat is alleen bij de éérste opkomst van een contructie 
                      <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-unidirectioneel-->
                      <mim:unidirectioneel>true</mim:unidirectioneel>
                      <mim:aggregatietype>Compositie</mim:aggregatietype>
-                     <mim:kardinaliteit>1</mim:kardinaliteit>
+                     <mim:kardinaliteit>0..*</mim:kardinaliteit>
                      <!--https://docs.geostandaarden.nl/mim/mim/#metagegeven-doel-->
                      <mim:doel>
                         <mim-ref:ObjecttypeRef index="2220" xlink:href="#personen-objecttype-persoon">Persoon</mim-ref:ObjecttypeRef>

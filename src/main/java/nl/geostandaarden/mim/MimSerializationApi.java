@@ -21,6 +21,9 @@ import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
 import nl.geostandaarden.mim.error.MimSerializationApiMimVersionException;
 
+/**
+ * Main entry of the MIM serialization API that can be used to load and create MIM models
+ */
 public class MimSerializationApi {
   
   protected static final String MIM_NAMESPACE_1_1                = "http://www.geostandaarden.nl/mim/mim-core/1.1";
@@ -49,6 +52,14 @@ public class MimSerializationApi {
     relTypeSchemaNameMap.put(MIM_RELATIEMODELLERINGSTYPE.RELATIEROL_LEIDEND, "MIMFORMAT_Mim_relatierol.xsd");
   }
   
+  /**
+   * Loads (unmarshals, deserializes) a MIM XML serialization from an InputStream
+   * 
+   * @param mimSerialization the InputStream to load from 
+   * @param validationEventHandler a JAXB ValidationEventHandler
+   * @return a MIM version- and relatiemodelleringstype specific subclass of nl.geostandaarden.mim.MimModel
+   * @throws MimSerializationApiLoadException
+   */
   public static MimModel loadModel(InputStream mimSerialization, ValidationEventHandler validationEventHandler) throws MimSerializationApiLoadException {
     try {
       Document mimDoc = loadDocument(mimSerialization);
@@ -84,6 +95,14 @@ public class MimSerializationApi {
     }
   }
   
+  /**
+   * Loads (unmarshals, deserializes) a MIM XML serialization from a Path
+   * 
+   * @param mimSerializationPath the Path to load from 
+   * @param validationEventHandler a JAXB ValidationEventHandler
+   * @return a MIM version- and relatiemodelleringstype specific subclass of nl.geostandaarden.mim.MimModel
+   * @throws MimSerializationApiLoadException
+   */
   public static MimModel loadModel(Path mimSerializationPath, ValidationEventHandler validationEventHandler) throws MimSerializationApiLoadException {
     try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(mimSerializationPath))) {
       return loadModel(bis, validationEventHandler);
@@ -92,14 +111,35 @@ public class MimSerializationApi {
     }
   }
   
+  /**
+   * Loads (unmarshals, deserializes) a MIM XML serialization from an InputStream
+   * 
+   * @param mimSerialization the InputStream to load from 
+   * @return a MIM version- and relatiemodelleringstype specific subclass of nl.geostandaarden.mim.MimModel
+   * @throws MimSerializationApiLoadException
+   */
   public static MimModel loadModel(InputStream mimSerialization) throws MimSerializationApiLoadException {
     return loadModel(mimSerialization, null);
   }
   
+  /**
+   * Loads (unmarshals, deserializes) a MIM XML serialization from a Path
+   * 
+   * @param mimSerializationPath the Path to load from 
+   * @return a MIM version- and relatiemodelleringstype specific subclass of nl.geostandaarden.mim.MimModel
+   * @throws MimSerializationApiLoadException
+   */
   public static MimModel loadModel(Path mimSerializationPath) throws MimSerializationApiLoadException {
     return loadModel(mimSerializationPath, null);
   }  
   
+  /**
+   * Creates a new MIM model that complies with specified MIM version and relatiemodelleringstype
+   * 
+   * @param version the MIM version
+   * @param relType the relatiemodelleringstype ("Relatiesoort leidend", "Relatierol leidend")
+   * @return
+   */
   public static MimModel newModel(MIM_VERSION version, MIM_RELATIEMODELLERINGSTYPE relType) {
     switch (version) {
     case VERSION_1_2:

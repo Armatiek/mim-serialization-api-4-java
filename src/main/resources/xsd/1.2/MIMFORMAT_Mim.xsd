@@ -42,15 +42,7 @@
       <xs:element name="informatiemodeltype" type="xs:string"/>
       <xs:element name="informatiedomein" type="xs:string"/>
       <xs:element name="relatiemodelleringstype" type="mim:relatiemodelleringstype"/>
-      <xs:element name="MIMVersie">
-        <xs:simpleType>
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="1.1.0"/>
-            <xs:enumeration value="1.1.1"/>
-            <xs:enumeration value="1.2"/>
-          </xs:restriction>
-        </xs:simpleType>
-      </xs:element>
+      <xs:element name="MIMVersie" type="mim:MIMVersie"/>
       <xs:element name="MIMExtensie" type="xs:string" minOccurs="0"/>
       <xs:element name="MIMExtensieVersie" type="xs:string" minOccurs="0"/>
       <xs:element name="MIMTaal" type="xs:string" minOccurs="0"/>
@@ -629,7 +621,7 @@
   <xs:complexType name="GeneralisatieObjecttypen">
     <xs:sequence>
       <xs:element name="datumOpname" type="xs:string"/>
-      <xs:element name="mixin" type="mim:boolean"/>
+      <xs:element name="mixin" type="mim:boolean" minOccurs="0"/>
       <xs:element name="typeSupertype" type="xs:string" minOccurs="0"/>
       <xs:element name="supertype">
         <xs:complexType>
@@ -806,6 +798,9 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="1.0"/>
       <xs:enumeration value="1.1"/>
+      <xs:enumeration value="1.1.0"/>
+      <xs:enumeration value="1.1.1"/>
+      <xs:enumeration value="1.2"/>
     </xs:restriction>
   </xs:simpleType>
 

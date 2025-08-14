@@ -3,6 +3,9 @@ package nl.geostandaarden.mim.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * Static utility methods related to Java reflection functionality
+ */
 public class ReflectionUtil {
   
   public static String getId(Object obj) {

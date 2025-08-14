@@ -22,6 +22,9 @@ import org.xml.sax.SAXException;
 
 import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
 
+/**
+ * Static utility methods related to setting/getting XHTML as string
+ */
 public class XhtmlUtil {
   
   public static String serializeXhtml(List<Object> objects) throws MimSerializationApiXhtmlException {

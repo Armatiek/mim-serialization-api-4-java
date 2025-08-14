@@ -9,26 +9,26 @@ import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.MimSerializationApi;
 import nl.geostandaarden.mim.error.*;
 import nl.geostandaarden.mim.interfaces.AttribuutsoortType;
-import nl.geostandaarden.mim_1_2.relatierol.*;
-import nl.geostandaarden.mim_1_2.relatierol.ext.*;
-import nl.geostandaarden.mim_1_2.relatierol.ref.RefType;
-import nl.geostandaarden.mim_1_2.relatierol.ref.RefTypeEx;
+import nl.geostandaarden.mim_1_2.relatiesoort.*;
+import nl.geostandaarden.mim_1_2.relatiesoort.ext.*;
+import nl.geostandaarden.mim_1_2.relatiesoort.ref.RefType;
+import nl.geostandaarden.mim_1_2.relatiesoort.ref.RefTypeEx;
 
 /**
  * Sample that shows how to load (unmarshal, deserialize) an existing MIM XML serialization
  */
 public class LoadMimModel {
   
-  private static final String SAMPLE_PATH = "/xsd/1.2/Samples/Fietsenwinkel.xml";
+  private static final String SAMPLE_PATH = "/xsd/1.2/Samples/Fietsenwinkel-relatiesoort-leidend.xml";
   
-  private nl.geostandaarden.mim_1_2.relatierol.MimModel mimModel;
+  private nl.geostandaarden.mim_1_2.relatiesoort.MimModel mimModel;
   
   public void loadModel() throws MimSerializationApiLoadException {
     /* Get an inputstream of a sample serialization: */
     InputStream mimSerialization = LoadMimModel.class.getResourceAsStream(SAMPLE_PATH);
     
     /* Load the model (MIM version 1.2 - Relatierol leidend) while validating the serialization: */
-    this.mimModel = (nl.geostandaarden.mim_1_2.relatierol.MimModel) MimSerializationApi.loadModel(mimSerialization, new ValidationEventHandler() {
+    this.mimModel = (nl.geostandaarden.mim_1_2.relatiesoort.MimModel) MimSerializationApi.loadModel(mimSerialization, new ValidationEventHandler() {
       @Override
       public boolean handleEvent(ValidationEvent event) {
         System.out.println("Validation error: " + event.getMessage() + " (" + event.getSeverity() + ")");
