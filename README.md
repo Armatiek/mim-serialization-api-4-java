@@ -190,6 +190,8 @@ public Optional<Kenmerk> getKenmerk(String name);
 ```
 The name is always case sensitive.
 
+**Please create an Github issue when you need more of these utility/helper methods!**
+
 See the sample application: [LoadMimModel.java](src/main/java/nl/geostandaarden/mim/samples/LoadMimModel.java)
 
 ## Creating a new MIM model
