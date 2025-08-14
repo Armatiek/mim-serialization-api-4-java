@@ -22,6 +22,7 @@
       <name>Maarten Kroon</name>
       <id>maartenkroon</id>
       <organization>Armatiek BV</organization>
+      <organizationUrl>https://armatiek.nl</organizationUrl>
       <roles>
         <role>Java Developer</role>
       </roles>
@@ -32,8 +33,6 @@
     <license>
       <name>Apache License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-      <comments>A business-friendly OSS license</comments>
     </license>
   </licenses>
   
@@ -319,47 +318,45 @@
         </executions>
       </plugin>
       
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.3.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>3.11.2</version>
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      
     </plugins>
   </build>
   
   <profiles>
     <profile>
-      <id>generate-javadocs</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>3.11.2</version>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-            <!--
-            <configuration>
-              <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
-              <docletArtifact>
-                <groupId>nl.talsmasoftware</groupId>
-                <artifactId>umldoclet</artifactId>
-                <version>2.2.2</version>
-              </docletArtifact>
-              <additionalOptions>
-                < ! - -<additionalOption>...</additionalOption> - - >
-              </additionalOptions>
-            </configuration>
-            -->
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
       <id>release</id>
       <build>
         <plugins>
+          
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
@@ -374,21 +371,6 @@
               </execution>
             </executions>
           </plugin>
-          
-          <!--
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <version>1.7.0</version>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-              <stagingProgressTimeoutMinutes>20</stagingProgressTimeoutMinutes>
-            </configuration>
-          </plugin>
-          -->
           
           <plugin>
             <groupId>org.sonatype.central</groupId>
