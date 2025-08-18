@@ -31,7 +31,7 @@ To add a dependency on the API using Maven, use the following:
 <dependency>
   <groupId>nl.armatiek.mim</groupId>
   <artifactId>mim-serialization-api</artifactId>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
 </dependency>
 ```
 
@@ -39,7 +39,7 @@ To add a dependency using Gradle:
 
 ```gradle
 dependencies {
-  implementation("nl.armatiek.mim:mim-serialization-api:0.9.0")
+  implementation("nl.armatiek.mim:mim-serialization-api:0.9.1")
 }
 ```
 
@@ -179,17 +179,17 @@ Using the parameter `excludeStaticOrMixinTypes` or `excludeStaticTypes` it is po
 You can get the "inner" model elements of an `Objecttype` by name by casting the `Objecttype` to `ObjecttypeEx` and use one of the methods:
 
 ```java
-public Optional<Attribuutsoort> getAttribuutsoort(String name);
+public Attribuutsoort getAttribuutsoort(String name);
 
-public Optional<Gegevensgroep> getGegevensgroep(String name);
+public Gegevensgroep getGegevensgroep(String name);
 
-public Optional<Relatiesoort> getRelatiesoort(String name);
+public Relatiesoort getRelatiesoort(String name);
 
-public Optional<Keuze> getKeuze(String name);
+public Keuze getKeuze(String name);
 
-public Optional<Constraint> getConstraint(String name);
+public Constraint getConstraint(String name);
 
-public Optional<Kenmerk> getKenmerk(String name);
+public Kenmerk getKenmerk(String name);
 ```
 The name is always case sensitive.
 
