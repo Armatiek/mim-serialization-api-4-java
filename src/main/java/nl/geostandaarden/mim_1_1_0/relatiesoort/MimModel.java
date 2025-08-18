@@ -55,14 +55,4 @@ public class MimModel extends nl.geostandaarden.mim.MimModel {
     return super.getModelElementById(refType.getHref().substring(1));
   }
   
-  @Override
-  public Objecttype getObjecttypeByName(String name, String packageName) { 
-    return (Objecttype) super.getObjecttypeByName(name, packageName);
-  }
-  
-  @Override
-  public Objecttype getObjecttypeByName(String name) {
-    return (Objecttype) super.getObjecttypeByName(name);
-  }
-
 }

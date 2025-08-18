@@ -21,4 +21,17 @@ public class ReflectionUtil {
     return id; 
   }
   
+  public static String getNaam(Object obj) {
+    String name = null;
+    try {
+      Method method = obj.getClass().getMethod("getNaam");
+      name = (String) method.invoke(obj);
+    } catch (NoSuchMethodException | InvocationTargetException e) { 
+      return null;
+    } catch (IllegalAccessException e) { 
+      throw new RuntimeException(e);
+    }
+    return name; 
+  }
+  
 }

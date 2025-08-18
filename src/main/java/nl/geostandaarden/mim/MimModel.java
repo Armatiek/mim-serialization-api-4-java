@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.XMLConstants;
@@ -17,7 +16,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.apache.commons.jxpath.JXPathContext;
 import org.jvnet.jaxb.lang.Child;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -40,8 +38,8 @@ import nl.geostandaarden.mim.util.ReflectionUtil;
 public abstract class MimModel {
      
   protected HashMap<String, Object> idModelElementMap = new HashMap<String, Object>();
+  protected HashMap<String, List<Object>> nameModelElementMap = new HashMap<String, List<Object>>();
   protected Object informationModel;
-  protected JXPathContext jxpathContext;
   protected Schema schema;
   
   public MimModel() { }
@@ -66,9 +64,21 @@ public abstract class MimModel {
 
           @Override
           public void afterUnmarshal(Object target, Object parent) {
+            if (target instanceof JAXBElement) {
+              return;
+            }
             String id = ReflectionUtil.getId(target);
             if (id != null && id.length() > 0) {
               idModelElementMap.put(id, target);
+            }
+            String name = ReflectionUtil.getNaam(target);
+            if (name != null && name.length() > 0) {
+              List<Object> objs = nameModelElementMap.get(name);
+              if (objs == null) {
+                objs = new ArrayList<Object>();
+                nameModelElementMap.put(name, objs);
+              }
+              objs.add(target);
             }
           }
           
@@ -81,7 +91,6 @@ public abstract class MimModel {
         this.informationModel = obj;
       }
       ((Child) this.informationModel).setParent(this); 
-      this.jxpathContext = JXPathContext.newContext(this.informationModel);
     } catch (Exception e) {
       throw new MimSerializationApiLoadException(e.getMessage(), e);
     }
@@ -211,9 +220,9 @@ public abstract class MimModel {
   }
   
   /**
-   * Gets the model element (like an Attribuutsoort or Objecttype) with given unique identifier
+   * Gets the model element (like an Attribuutsoort or Objecttype) with specified unique identifier
    * 
-   * @param id
+   * @param id the unique identifier of the model element
    * @return
    */
   public Object getModelElementById(String id) {
@@ -221,33 +230,13 @@ public abstract class MimModel {
   }
   
   /**
-   * Gets the Objectype with specified name that is part of a package (Domein, View) with specified packageName
+   * Gets all model elements (like an View or Objecttype) with specified name
    * 
-   * @param name
-   * @param packageName
-   * @return
+   * @param name the name of the model elements
+   * @return the list of model elements with specified name or null if no model elements with specified name
    */
-  protected Object getObjecttypeByName(String name, String packageName) {    
-    return jxpathContext.selectSingleNode("(/packages/*[@naam = '" + packageName + "']/objecttypen/objecttype[@naam = '" + name + "'])[1]");
-  }
-  
-  /**
-   * Gets the first Objecttype with specified name
-   * 
-   * @param name
-   * @return
-   */
-  protected Object getObjecttypeByName(String name) {
-    return jxpathContext.selectSingleNode("(/packages/*/objecttypen/objecttype[@naam = '" + name + "'])[1]");
-  }
-  
-  protected List<Object> getByXPath(String xpath) {
-    List<Object> objects = new ArrayList<Object>();
-    Iterator<Object> iter = jxpathContext.iterate(xpath);
-    while (iter.hasNext()) {
-      objects.add(iter.next());
-    }
-    return objects;
+  public List<Object> getModelElementsByName(String name) {
+    return nameModelElementMap.get(name);
   }
    
   /**

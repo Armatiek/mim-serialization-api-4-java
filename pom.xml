@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.armatiek.mim</groupId>
   <artifactId>mim-serialization-api</artifactId>
-  <version>0.9.0</version>
+  <version>0.9.1</version>
   <name>MIM Serialization API</name>
   <inceptionYear>2025</inceptionYear>
   <description>
@@ -50,8 +50,8 @@
   </scm>
   
   <properties>
-    <maven.compiler.target>19</maven.compiler.target>
-    <maven.compiler.source>19</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
     <jaxb.version>4.0.5</jaxb.version>
     <jaxb-tools.version>4.0.9</jaxb-tools.version>

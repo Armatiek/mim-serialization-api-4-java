@@ -2,54 +2,55 @@ package nl.geostandaarden.mim_1_2.relatiesoort;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import nl.geostandaarden.mim_1_2.relatiesoort.ext.Kenmerken.Kenmerk;
 import nl.geostandaarden.mim_1_2.relatiesoort.ref.RefTypeEx;
 
 public class ObjecttypeEx extends Objecttype {
   
-  public Optional<Attribuutsoort> getAttribuutsoort(String name) {
+  public Attribuutsoort getAttribuutsoort(String name) {
     if (name == null)
       return null;
-    return getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> name.equals(((Attribuutsoort) a).getNaam())).findFirst();
+    return getAttribuutsoorten().getAttribuutsoort().stream().filter(a -> name.equals(((Attribuutsoort) a).getNaam())).findFirst().orElse(null);
   }
   
-  public Optional<Gegevensgroep> getGegevensgroep(String name) {
+  public Gegevensgroep getGegevensgroep(String name) {
     if (name == null)
       return null;
-    return getGegevensgroepen().getGegevensgroep().stream().filter(g -> name.equals(((Gegevensgroep) g).getNaam())).findFirst();
+    return getGegevensgroepen().getGegevensgroep().stream().filter(g -> name.equals(((Gegevensgroep) g).getNaam())).findFirst().orElse(null);
   }
   
-  public Optional<Relatiesoort> getRelatiesoort(String name) {
+  public Relatiesoort getRelatiesoort(String name) {
     if (name == null)
       return null;
-    return getRelatiesoorten().getRelatiesoort().stream().filter(r -> name.equals(((Relatiesoort) r).getNaam())).findFirst();
+    return getRelatiesoorten().getRelatiesoort().stream().filter(r -> name.equals(((Relatiesoort) r).getNaam())).findFirst().orElse(null);
   }
   
-  public Optional<Keuze> getKeuze(String name) {
+  public Keuze getKeuze(String name) {
     if (name == null)
       return null;
     return getKeuzen().getKeuzeRef().stream()
         .filter(r -> name.equals(((Keuze) ((RefTypeEx) r).getTarget()).getNaam()))
-        .map(r -> (Keuze) ((RefTypeEx) r).getTarget()).findFirst();
+        .map(r -> (Keuze) ((RefTypeEx) r).getTarget()).findFirst().orElse(null);
   }
   
-  public Optional<Constraint> getConstraint(String name) {
+  public Constraint getConstraint(String name) {
     if (name == null)
       return null;
-    return getConstraints().getConstraint().stream().filter(c -> name.equals(((Constraint) c).getNaam())).findFirst();
+    return getConstraints().getConstraint().stream().filter(c -> name.equals(((Constraint) c).getNaam())).findFirst().orElse(null);
   }
   
-  public Optional<Kenmerk> getKenmerk(String name) {
+  public Kenmerk getKenmerk(String name) {
     if (name == null)
       return null;
-    return getKenmerken().getKenmerk().stream().filter(k -> name.equals(((Kenmerk) k).getNaam())).findFirst();
+    return getKenmerken().getKenmerk().stream().filter(k -> name.equals(((Kenmerk) k).getNaam())).findFirst().orElse(null);
   }
   
   public List<Objecttype> getSupertypen(boolean excludeStaticOrMixinTypes) {
     return this.getSupertypen().generalisatieObjecttypen.stream()
         .filter(r -> (excludeStaticOrMixinTypes) ? !isStaticOrMixinGeneralisation(r) : true)
-        .map(g -> (Objecttype) ((RefTypeEx) g.getSupertype().getObjecttypeRef()).getTarget()).toList();
+        .map(g -> (Objecttype) ((RefTypeEx) g.getSupertype().getObjecttypeRef()).getTarget()).collect(Collectors.toList());
   }
   
   private boolean isStaticOrMixinGeneralisation(GeneralisatieObjecttypen go) {
