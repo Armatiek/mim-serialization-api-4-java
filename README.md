@@ -13,6 +13,7 @@ The "MIM serialization API for Java" is a library for JVM based languages (Java,
   - [Getting the type of an Attribuutsoort](#getting-the-type-of-an-attribuutsoort)
   - [Getting the supertypes of an Objecttype](#getting-the-supertypes-of-an-objecttype)
   - [Getting model elements of an Objecttype by name](#getting-model-elements-of-an-objecttype-by-name)
+  - [Getting any model element by unique identifier or name](#getting-any-model-element-by-unique-identifier-or-name)
   - [Following parent relationships](#following-parent-relationships)
 - [Creating a new MIM model](#creating-a-new-MIM-model)
   - [Reindexing references](#reindexing-references)
@@ -192,6 +193,17 @@ public Constraint getConstraint(String name);
 public Kenmerk getKenmerk(String name);
 ```
 The name is always case sensitive.
+
+### Getting any model element by unique identifier or name
+You get get any model element by unique identifier or name using the methods:
+
+```java
+public Object getModelElementById(String id);
+
+public List<Object> getModelElementsByName(String name);
+```
+
+of the `MimModel`. Both the identifier and name are case sensitive.
 
 **Please create an Github issue when you need more of these utility/helper methods!**
 
